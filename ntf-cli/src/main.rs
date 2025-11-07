@@ -4,7 +4,8 @@ use eyre::Result;
 
 use ntf_cli::NtfCli;
 
-fn main() -> Result<()> {
+#[tokio::main]
+async fn main() -> Result<()> {
     color_eyre::install()?;
-    NtfCli::run()
+    NtfCli::run().await
 }
