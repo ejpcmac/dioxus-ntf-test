@@ -1,0 +1,25 @@
+[package]
+name = "ntf-api-types"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+homepage.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+description = "Types for the notification API."
+
+[features]
+axum = ["dep:axum"]
+# NOTE: This feature is enabled in `.vscode/settings.json` and can be used to
+# enable some features when editing the code without impacting the default
+# features.
+rust-analyzer = ["axum"]
+
+[dependencies]
+axum = { version = "0.8", optional = true }
+serde = { version = "1", features = ["derive"] }
+thiserror = "2"
+
+[lints]
+workspace = true
