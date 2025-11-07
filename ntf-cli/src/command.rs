@@ -1,13 +1,21 @@
 //! The Command Line Interface for ntf-cli.
 
+mod ack;
+mod create;
+mod delete;
+mod get;
 mod hello;
 mod helpers;
+mod list;
 
 use clap::{ArgAction, Parser, Subcommand};
 use eyre::{Report, Result};
 use tracing_subscriber::fmt::format::FmtSpan;
 
-use self::hello::Hello;
+use self::{
+    ack::Ack, create::Create, delete::Delete, get::Get, hello::Hello,
+    list::List,
+};
 
 /// The long version information.
 const LONG_VERSION: &str = concat!(
@@ -45,6 +53,16 @@ pub struct NtfCli {
 pub enum NtfCliCommand {
     /// Say hello.
     Hello(Hello),
+    /// Lists the notifications.
+    List(List),
+    /// Creates a notification.
+    Create(Create),
+    /// Gets a notification.
+    Get(Get),
+    /// Acknowledges a notification.
+    Ack(Ack),
+    /// Deletes a notification.
+    Delete(Delete),
 }
 
 /// A command.
@@ -71,6 +89,11 @@ impl NtfCliCommand {
     pub async fn run(&self) -> Result<()> {
         match self {
             Self::Hello(hello) => hello.run().await,
+            Self::List(list) => list.run().await,
+            Self::Create(create) => create.run().await,
+            Self::Get(get) => get.run().await,
+            Self::Ack(ack) => ack.run().await,
+            Self::Delete(delete) => delete.run().await,
         }
     }
 }

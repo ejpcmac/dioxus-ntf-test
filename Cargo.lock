@@ -822,6 +822,7 @@ dependencies = [
  "clap",
  "color-eyre",
  "eyre",
+ "ntf-api",
  "rexpect",
  "serde",
  "serde_json",

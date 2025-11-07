@@ -38,6 +38,7 @@ list = [
 
     # Commands
     "c:hello",
+    "c:list",
 
     # API
     "api",
