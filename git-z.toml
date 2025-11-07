@@ -37,7 +37,12 @@ list = [
     "command",
 
     # Commands
+    "c:ack",
+    "c:create",
+    "c:delete",
+    "c:get",
     "c:hello",
+    "c:list",
 
     # API
     "api",
