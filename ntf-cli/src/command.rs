@@ -50,16 +50,16 @@ pub enum NtfCliCommand {
 /// A command.
 trait Command {
     /// Runs the command.
-    fn run(&self) -> Result<()>;
+    async fn run(&self) -> Result<()>;
 }
 
 impl NtfCli {
     /// Runs ntf-cli.
-    pub fn run() -> Result<()> {
+    pub async fn run() -> Result<()> {
         let args = Self::parse();
         setup_tracing(args.verbosity);
 
-        match args.command.run() {
+        match args.command.run().await {
             Err(error) => handle_errors(error),
             Ok(()) => Ok(()),
         }
@@ -68,9 +68,9 @@ impl NtfCli {
 
 impl NtfCliCommand {
     /// Runs the given command.
-    pub fn run(&self) -> Result<()> {
+    pub async fn run(&self) -> Result<()> {
         match self {
-            Self::Hello(hello) => hello.run(),
+            Self::Hello(hello) => hello.run().await,
         }
     }
 }

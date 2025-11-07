@@ -12,7 +12,7 @@ pub struct Hello {
 
 impl super::Command for Hello {
     #[tracing::instrument(name = "hello", level = "trace", skip_all)]
-    fn run(&self) -> Result<()> {
+    async fn run(&self) -> Result<()> {
         tracing::info!(params = ?self, "running hello");
 
         let Self { name } = self;

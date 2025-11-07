@@ -27,6 +27,7 @@ eyre = "0.6"
 # ntf-poc-helpers = { path = "../ntf-poc-helpers" }
 # indoc = "2"
 # inquire = "0.7"
+tokio = { version = "1.48", features = ["full"] }
 # thiserror = "2"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
