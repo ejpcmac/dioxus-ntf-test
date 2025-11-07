@@ -35,15 +35,19 @@ list = [
     # CLI
     "cli",
     "command",
-    "helpers",
-    "lib",
-    "tracing",
 
     # Commands
     "c:hello",
 
+    # API
+    "types",
+
     # Server
     "srv",
+
+    # Helpers
+    "h:helpers",
+    "h:tracing",
 
     # Cargo xtasks
     "xt:check",
