@@ -1,6 +1,13 @@
 [workspace]
 resolver = "3"
-members = ["ntf-api-types", "ntf-cli", "ntf-poc-helpers", "ntf-srv", "xtask"]
+members = [
+    "ntf-api",
+    "ntf-api-types",
+    "ntf-cli",
+    "ntf-poc-helpers",
+    "ntf-srv",
+    "xtask",
+]
 default-members = ["ntf-cli", "ntf-poc-helpers"]
 
 [workspace.package]
