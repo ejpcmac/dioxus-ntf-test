@@ -23,6 +23,8 @@ use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use thiserror::Error;
 
+use ntf_poc_helpers::tracing::LogResult as _;
+
 /// The state of the web service.
 #[derive(Debug, Default)]
 pub struct AppState {
@@ -124,6 +126,7 @@ impl IntoResponse for ResourceError {
 #[tokio::main]
 async fn main() -> Result<()> {
     color_eyre::install()?;
+    tracing_subscriber::fmt().init();
 
     let state = Arc::new(Mutex::new(AppState::default()));
 
@@ -148,21 +151,24 @@ async fn status() -> Json<Value> {
 }
 
 /// Lists the notifications.
+#[tracing::instrument(skip(state))]
 async fn list_notifications(
     State(state): State<Arc<Mutex<AppState>>>,
 ) -> Json<Vec<Notification>> {
-    Json(
-        state
-            .lock()
-            .expect("cannot acquire lock on the state")
-            .notifications
-            .values()
-            .cloned()
-            .collect(),
-    )
+    let notifications = state
+        .lock()
+        .expect("cannot acquire lock on the state")
+        .notifications
+        .values()
+        .cloned()
+        .collect();
+
+    tracing::info!(?notifications, "LIST");
+    Json(notifications)
 }
 
 /// Gets a notification by its ID.
+#[tracing::instrument(skip(state))]
 async fn create_notification(
     State(state): State<Arc<Mutex<AppState>>>,
     WithRejection(Json(payload), _): WithRejection<
@@ -179,24 +185,31 @@ async fn create_notification(
     };
     state.notifications.insert(id, notification.clone());
 
+    tracing::info!(?notification, "CREATE");
     Ok(notification)
 }
 
 /// Gets a notification by its ID.
+#[tracing::instrument(skip(state))]
 async fn get_notification(
     State(state): State<Arc<Mutex<AppState>>>,
     Path(id): Path<usize>,
 ) -> Result<Notification, ResourceError> {
-    state
+    let notification = state
         .lock()
         .expect("cannot acquire lock on the state")
         .notifications
         .get(&id)
         .cloned()
         .ok_or(ResourceError::NotFound { id })
+        .log_err()?;
+
+    tracing::info!(?notification, "GET");
+    Ok(notification)
 }
 
 /// Acknowledges a notification.
+#[tracing::instrument(skip(state))]
 async fn ack_notification(
     State(state): State<Arc<Mutex<AppState>>>,
     Path(id): Path<usize>,
@@ -205,21 +218,27 @@ async fn ack_notification(
     match state.notifications.get_mut(&id) {
         Some(notification) => {
             notification.ack = true;
+            tracing::info!(?notification, "ACK");
             Ok(notification.clone())
         }
-        None => Err(ResourceError::NotFound { id }),
+        None => Err(ResourceError::NotFound { id }).log_err(),
     }
 }
 
 /// Delete a notification.
+#[tracing::instrument(skip(state))]
 async fn delete_notification(
     State(state): State<Arc<Mutex<AppState>>>,
     Path(id): Path<usize>,
 ) -> Result<Notification, ResourceError> {
-    state
+    let notification = state
         .lock()
         .expect("cannot acquire lock on the state")
         .notifications
         .shift_remove(&id)
         .ok_or(ResourceError::NotFound { id })
+        .log_err()?;
+
+    tracing::info!(?notification, "DELETE");
+    Ok(notification)
 }

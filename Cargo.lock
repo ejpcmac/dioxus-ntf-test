@@ -659,10 +659,13 @@ dependencies = [
  "color-eyre",
  "eyre",
  "indexmap",
+ "ntf-poc-helpers",
  "serde",
  "serde_json",
  "thiserror",
  "tokio",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]
