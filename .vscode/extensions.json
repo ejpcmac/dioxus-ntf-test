@@ -1,0 +1,14 @@
+{
+    "recommendations": [
+        "cab404.vscode-direnv",
+        "dnut.rewrap-revived",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "fill-labs.dependi",
+        "jnoortheen.nix-ide",
+        "rust-lang.rust-analyzer",
+        "ryanluker.vscode-coverage-gutters",
+        "tamasfe.even-better-toml",
+        "tekumara.typos-vscode"
+    ]
+}

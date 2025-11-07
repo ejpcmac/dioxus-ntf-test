@@ -1,0 +1,26 @@
+include = [
+    "*.toml",
+    ".config/*.toml",
+    "ntf-cli/**/*.toml",
+    "ntf-poc-helpers/**/*.toml",
+    "xtask/**/*.toml",
+]
+exclude = ["**/.cargo/config.toml", "bacon.toml"]
+
+[formatting]
+indent_string = "    "
+reorder_arrays = true
+
+[[rule]]
+include = ["**/Cargo.toml"]
+keys = ["*dependencies", "features", "lints.*", "target.*.*dependencies"]
+
+[rule.formatting]
+reorder_keys = true
+
+[[rule]]
+include = ["**/Cargo.toml"]
+keys = ["*dependencies.*", "target.*.*dependencies.*"]
+
+[rule.formatting]
+reorder_keys = false

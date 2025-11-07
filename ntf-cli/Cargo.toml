@@ -1,0 +1,45 @@
+[package]
+name = "ntf-cli"
+version.workspace = true
+authors.workspace = true
+# See https://crates.io/category_slugs
+categories = ["command-line-utilities"]
+edition.workspace = true
+homepage.workspace = true
+keywords = []
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+description = "A CLI client for the notification API."
+
+[features]
+# NOTE: This feature is enabled in `.vscode/settings.json` and can be used to
+# enable some features when editing the code without impacting the default
+# features.
+rust-analyzer = []
+
+[dependencies]
+clap = { version = "4", features = ["derive", "wrap_help"] }
+color-eyre = "0.6"
+# colored = "3"
+# exitcode = "1"
+eyre = "0.6"
+# ntf-poc-helpers = { path = "../ntf-poc-helpers" }
+# indoc = "2"
+# inquire = "0.7"
+# thiserror = "2"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[build-dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[target.'cfg(not(windows))'.dev-dependencies]
+assert_cmd = "2"
+rexpect = "0.6"
+# assert_fs = "1"
+# predicates = "3"
+
+[lints]
+workspace = true

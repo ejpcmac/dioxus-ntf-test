@@ -1,0 +1,18 @@
+[package]
+name = "ntf-poc-helpers"
+version.workspace = true
+authors.workspace = true
+categories = ["development-tools"]
+edition.workspace = true
+homepage.workspace = true
+keywords = ["helpers"]
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+description = "Common helpers for dioxus-ntf-poc."
+
+[dependencies]
+tracing = "0.1"
+
+[lints]
+workspace = true
