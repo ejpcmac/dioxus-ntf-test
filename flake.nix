@@ -10,7 +10,9 @@
     };
 
     devshell = {
-      url = "github:numtide/devshell";
+      # NOTE: Use the latest version that provides an environment where
+      # libraries are found by the linker.
+      url = "github:numtide/devshell/9eee6508a16e6b63fa7b1a3ea387e2dbe321dbec";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
