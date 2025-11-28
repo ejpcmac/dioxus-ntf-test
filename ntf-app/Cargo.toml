@@ -23,6 +23,7 @@ mobile = ["dioxus/mobile"]
 
 [dependencies]
 dioxus = { version = "0.7.0", features = [] }
+ntf-api = { path = "../ntf-api" }
 
 [build-dependencies]
 serde = { version = "1", features = ["derive"] }
