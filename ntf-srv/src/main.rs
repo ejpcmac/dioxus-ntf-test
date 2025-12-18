@@ -66,7 +66,7 @@ async fn list_notifications(
 ) -> Json<Vec<Notification>> {
     let notifications = state
         .lock()
-        .expect("cannot acquire lock on the state")
+        .expect("poisoned lock")
         .notifications
         .values()
         .cloned()
@@ -85,7 +85,7 @@ async fn create_notification(
         CreateNotificationError,
     >,
 ) -> Result<Notification, ResourceError> {
-    let mut state = state.lock().expect("cannot acquire lock on the state");
+    let mut state = state.lock().expect("poisoned lock");
     let id = state.notifications.keys().last().unwrap_or(&0) + 1;
     let notification = Notification {
         id,
@@ -106,7 +106,7 @@ async fn get_notification(
 ) -> Result<Notification, ResourceError> {
     let notification = state
         .lock()
-        .expect("cannot acquire lock on the state")
+        .expect("poisoned lock")
         .notifications
         .get(&id)
         .cloned()
@@ -123,7 +123,7 @@ async fn ack_notification(
     State(state): State<Arc<Mutex<AppState>>>,
     Path(id): Path<usize>,
 ) -> Result<Notification, ResourceError> {
-    let mut state = state.lock().expect("cannot acquire lock on the state");
+    let mut state = state.lock().expect("poisoned lock");
     match state.notifications.get_mut(&id) {
         Some(notification) => {
             notification.ack = true;
@@ -142,7 +142,7 @@ async fn delete_notification(
 ) -> Result<Notification, ResourceError> {
     let notification = state
         .lock()
-        .expect("cannot acquire lock on the state")
+        .expect("poisoned lock")
         .notifications
         .shift_remove(&id)
         .ok_or(ResourceError::NotFound { id })
