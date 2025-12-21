@@ -53,7 +53,7 @@ pub enum ResourceAccessError {
     #[error(transparent)]
     ApiError(ApiError),
     /// The resource has not been found.
-    #[error("the resource has not been found.")]
+    #[error("the resource has not been found (id = {id}).")]
     NotFound {
         /// The ID of the missing resource.
         id: usize,
